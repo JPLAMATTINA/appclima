@@ -6,6 +6,7 @@ import Footer from './footer.js'
 import Nav from './nav.js'
 import Main from './main.js'
 import Selection from './mainSelection'
+import Select from './select.js'
 
 
 ReactDOM.render((
@@ -13,6 +14,7 @@ ReactDOM.render((
     <Nav />
     <Main />
     <Selection />
+    <Select />
     <App />
     <Footer />
     </BrowserRouter>
