@@ -11,6 +11,8 @@ const Climas = () => {
   const ciudades = useRef();
   const [mes,SetMes] = useState();
   const meses = useRef();
+const N = []
+
 
    const GetPais = () => {
     fetch(
@@ -25,7 +27,7 @@ const Climas = () => {
   };
 
   const Buscando = (event) => {
-    SetSearch(event.target.value);
+    SetSearch(event.target.value);      
   };
 
   const GetCiudad = ()=>{SetCiudad(ciudades.current.value)}
@@ -39,7 +41,7 @@ const Climas = () => {
 
   // Cantidad de caracteres de lo que está escribiendo el usuario
   const p = search.length;
- console.log(ciudad)
+
   return (
     <>
       <label>Seleccione País</label><br/>
@@ -52,8 +54,7 @@ const Climas = () => {
       />
       {/*First of all ask if there is a search statement, 
       then if this is true, useing "slice" we search the same length 
-      of the input value on the list of titles in the json*/
-}
+      of the input value on the list of titles in the json*/}
       <select ref={ciudades} onChange={GetCiudad}>
       <option value="0">Elegir </option>
       {search ? 
@@ -82,11 +83,12 @@ const Climas = () => {
       paises.filter((paises) =>paises.id === parseFloat(ciudad)).map((paises, i) => (<Link to={"/clima/" + paises.id +'/'+ mes} key={i}><div style={{width:'100px', marginLeft:'3%',border:'2px solid black', display:'inline-block'}}> Ir </div></Link>))
       :null}
           {search ? (
-        <ul>
-          {paises.filter((paises) =>paises.country.slice(0, p).toLowerCase() === search.toLowerCase())
-            .map((paises, i) => (<option key={i} value={i}>{paises.country}</option>
-            ))}
+        <ul>        
+          {paises.filter((paises) =>paises.country.slice(0, p).toLowerCase().includes(search.toLowerCase())).map((paises,i) => <div style={{display:'none'}}>{N.push(paises.country)}</div>)}
+          {N? N.sort().filter((value, index)=>value !== N.sort()[index + 1]).map((n,i)=><li key={i}>{n}</li>):null}
+         
           </ul>) : null}
+
     </>
   );
 };
@@ -96,7 +98,7 @@ const Ciudad = () => {
   const {id} = useParams();
   let { mes } = useParams();
   const GetClima = () => {
-    //json estatico
+    //*json estatico*
     fetch("https://raw.githubusercontent.com/michaelx/climate/master/climate.json")
       .then((response) => response.json())
       .then((clima ) => {
@@ -108,11 +110,12 @@ const Ciudad = () => {
     GetClima();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   
   const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
   return (
     <div id="elegido">
-      {/clima.map((clima) => clima.id === params.id ? clima.monthlyAvg)}/}
+      {/*clima.map((clima) => clima.id === params.id ? clima.monthlyAvg)}*/}
       
     {clima.filter((clima) =>clima.id === parseFloat(id)).map((clima, i) => (
       <>
